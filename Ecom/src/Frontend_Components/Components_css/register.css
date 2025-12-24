@@ -1,0 +1,68 @@
+.registerContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f7fb;
+}
+
+.registerContainer > div {
+  width: 360px;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.registerContainer input {
+  width: 331px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+
+}
+
+
+/* Error input */
+.error {
+  border: 1px solid red !important;
+}
+
+/* Wrapper for confirm password */
+.passwordWrapper {
+  position: relative;
+}
+
+/* Cross icon */
+.cross {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 16px;
+}
+
+/* Error text */
+.errorText {
+  color: red;
+  font-size: 13px;
+  margin-top: -10px;
+  margin-bottom: 10px;
+}
+
+/* Disable button */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 13px;
+  color: #444;
+}
+
+input {
+  margin-bottom: 14px;
+}

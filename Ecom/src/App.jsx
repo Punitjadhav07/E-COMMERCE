@@ -1,16 +1,14 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { Login } from './Frontend_Components/Components/Login.jsx'
-function App() {
-  const [login , setlogin] = useState(false);
+import { Routes, Route } from "react-router-dom";
+import { Login } from "./Frontend_Components/Components/Login";
+import { Register } from "./Frontend_Components/Components/Register";
 
+function App() {
   return (
-    <>
-     <Login setlogin={setlogin}/>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
