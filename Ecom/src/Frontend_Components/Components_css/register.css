@@ -3,66 +3,119 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f7fb;
+  background: linear-gradient(135deg, #f5f7fb, #e9ecf5);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 .registerContainer > div {
-  width: 360px;
-  padding: 30px;
+  width: 380px;
+  padding: 32px;
   background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  border-radius: 14px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.12);
 }
 
-.registerContainer input {
-  width: 331px;
-  padding: 10px 12px;
-  margin-bottom: 16px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-
-}
-
-
-/* Error input */
-.error {
-  border: 1px solid red !important;
-}
-
-/* Wrapper for confirm password */
-.passwordWrapper {
-  position: relative;
-}
-
-/* Cross icon */
-.cross {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  font-size: 16px;
-}
-
-/* Error text */
-.errorText {
-  color: red;
-  font-size: 13px;
-  margin-top: -10px;
-  margin-bottom: 10px;
-}
-
-/* Disable button */
-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+h1 {
+  text-align: center;
+  margin-bottom: 22px;
+  font-size: 24px;
+  color: #222;
 }
 
 label {
   display: block;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   font-size: 13px;
+  font-weight: 500;
   color: #444;
 }
 
-input {
-  margin-bottom: 14px;
+/* Inputs & Select */
+.registerContainer input,
+.registerContainer select {
+  width: 355px;
+  padding: 11px 12px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: border 0.2s, box-shadow 0.2s;
+  background: #fff;
+}
+
+.registerContainer input:focus,
+.registerContainer select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+}
+
+/* Select arrow fix */
+.registerContainer select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%23666' viewBox='0 0 20 20'%3E%3Cpath d='M5.25 7.5L10 12.25 14.75 7.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  cursor: pointer;
+}
+
+/* Error input */
+.error {
+  border: 1px solid #dc2626 !important;
+}
+
+/* Error text */
+.errorText {
+  color: #dc2626;
+  font-size: 13px;
+  margin-top: -8px;
+  margin-bottom: 12px;
+}
+
+/* Buttons */
+.action_buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button.login {
+  background: #e5e7eb;
+  color: #111;
+}
+
+button.login:hover {
+  background: #d1d5db;
+}
+
+button.register {
+  background: #4f46e5;
+  color: #fff;
+}
+
+button.register:hover {
+  background: #4338ca;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Disabled button */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }

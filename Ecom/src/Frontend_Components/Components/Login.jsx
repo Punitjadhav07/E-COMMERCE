@@ -1,25 +1,73 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "../Api/api";  // ← import from your api
 import "../Components_css/login.css";
 
 export const Login = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleLogin = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await loginUser({
+        email,
+        password,
+      });
+
+      // save user info
+      localStorage.setItem("user", JSON.stringify(response.user));
+      alert(`✅ Welcome ${response.user.email} (${response.user.role})`);
+      
+      // route based on role
+      if (response.user.role === "ADMIN") {
+        navigate("/admin-dashboard");
+      } else if (response.user.role === "SELLER") {
+        navigate("/seller-dashboard");
+      } else {
+        navigate("/customer-dashboard");
+      }
+    } catch (err) {
+      setError(err.response?.data?.error || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className='loginContainer'>
+    <div className="loginContainer">
       <div>
         <h1>Login</h1>
 
-        <input type="text" placeholder='Username' />
-        
-        <h1>Password</h1>
-        <input type="password" placeholder='Password' />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-        <div className='action_buttons'>
-          <button className='login'>Login</button>
+        <h1>Password</h1>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        {error && <p className="errorText">{error}</p>}
+
+        <div className="action_buttons">
+          <button className="login" onClick={handleLogin} disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
+          </button>
 
           <button
-            className='register'
+            className="register"
             onClick={() => navigate("/register")}
           >
             Register

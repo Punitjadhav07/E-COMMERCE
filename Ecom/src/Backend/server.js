@@ -1,6 +1,6 @@
-import express from "express";
+import app from "./app.js";
 import db from './config/database.js'
-const app = express();
+
 const port = 3000;
 
 app.listen(port, () => {
