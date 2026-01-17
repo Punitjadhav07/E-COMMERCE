@@ -1,0 +1,220 @@
+.verifyOtpContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f5f7fb, #e9ecf5);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  padding: 20px;
+}
+
+.verifyOtpContainer > div {
+  width: 420px;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.verifyOtpContainer h1 {
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 28px;
+  color: #222;
+  font-weight: 600;
+}
+
+.emailText {
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 20px;
+  margin-bottom: 4px;
+}
+
+.emailDisplay {
+  text-align: center;
+  color: #2563eb;
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  word-break: break-all;
+}
+
+/* OTP Input Container */
+.otpInputContainer {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.otpInput {
+  width: 50px;
+  height: 60px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  border: 2px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+  transition: all 0.2s ease;
+  background: #fff;
+}
+
+.otpInput:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  transform: scale(1.05);
+}
+
+.otpInput:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+/* Timer Container */
+.timerContainer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.timerText {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.timerValue {
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.timerExpired {
+  color: #dc2626;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Error and Success Messages */
+.errorText {
+  color: #dc2626;
+  font-size: 14px;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 16px;
+  padding: 8px;
+  background: #fef2f2;
+  border-radius: 6px;
+}
+
+.successText {
+  color: #16a34a;
+  font-size: 14px;
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 16px;
+  padding: 8px;
+  background: #f0fdf4;
+  border-radius: 6px;
+}
+
+/* Action Buttons */
+.action_buttons {
+  margin-top: 20px;
+}
+
+.verifyButton {
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.verifyButton:hover:not(:disabled) {
+  background: #1e4fd6;
+}
+
+.verifyButton:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.verifyButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Resend Container */
+.resendContainer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.resendButton {
+  background: transparent;
+  color: #2563eb;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 8px;
+  transition: color 0.2s;
+}
+
+.resendButton:hover:not(:disabled) {
+  color: #1e4fd6;
+}
+
+.resendButton:disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+/* Back Link */
+.backLinkContainer {
+  text-align: center;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.backLink {
+  background: transparent;
+  color: #6b7280;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px;
+  transition: color 0.2s;
+}
+
+.backLink:hover {
+  color: #2563eb;
+}
+
+.backButton {
+  width: 100%;
+  padding: 12px;
+  background: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.2s;
+}
+
+.backButton:hover {
+  background: #1e4fd6;
+}
+

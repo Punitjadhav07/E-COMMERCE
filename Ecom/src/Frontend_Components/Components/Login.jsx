@@ -7,7 +7,7 @@ export const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false) ;
   const [error, setError] = useState("");
 
   const handleLogin = async () => {
@@ -33,7 +33,16 @@ export const Login = () => {
         navigate("/customer-dashboard");
       }
     } catch (err) {
-      setError(err.response?.data?.error || "Login failed");
+      // Check if user is not verified
+      if (err.response?.status === 403 && err.response?.data?.verified === false) {
+        setError(err.response?.data?.error || "Email not verified");
+        // Optionally redirect to verify-otp after 2 seconds
+        setTimeout(() => {
+          navigate(`/verify-otp?email=${encodeURIComponent(email)}`);
+        }, 2000);
+      } else {
+        setError(err.response?.data?.error || "Login failed");
+      }
     } finally {
       setLoading(false);
     }
@@ -77,3 +86,4 @@ export const Login = () => {
     </div>
   );
 };
+  

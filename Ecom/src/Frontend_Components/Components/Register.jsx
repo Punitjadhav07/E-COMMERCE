@@ -39,15 +39,19 @@ export const Register = () => {
     setSuccess("");
 
     try {
-      // Send to backend (writes to DB)
+      // Send to backend (writes to DB and sends OTP)
       const response = await registerUser({
         email: formData.email,
         password: formData.password,
         role: formData.role,
       });
 
-      setSuccess("✅ Registered successfully! Check database.");
-      // no need to save locally, backend handles it
+      setSuccess("✅ Registered successfully! Redirecting to verification...");
+      
+      // Redirect to verify-otp page after a short delay
+      setTimeout(() => {
+        navigate(`/verify-otp?email=${encodeURIComponent(formData.email)}`);
+      }, 1500);
     } catch (err) {
       setError(err.response?.data?.error || "Registration failed");
     } finally {
