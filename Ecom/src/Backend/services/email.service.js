@@ -31,7 +31,6 @@ export const sendOTPEmail = async (email, otp) => {
     }
 
     console.log(`📧 Attempting to send OTP to: ${email}`);
-    console.log(`📧 Using email: ${process.env.EMAIL_USER}`);
     
     const mailOptions = {
       from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
@@ -52,11 +51,9 @@ export const sendOTPEmail = async (email, otp) => {
 
     const info = await transporter.sendMail(mailOptions);
     console.log(`✅ OTP email sent successfully! Message ID: ${info.messageId}`);
-    console.log(`📧 From: ${mailOptions.from}, To: ${mailOptions.to}`);
     return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error("Error sending OTP email:", error);
-    // Provide more detailed error message
     const errorMsg = error.message || "Unknown error";
     if (error.code === "MODULE_NOT_FOUND") {
       throw new Error("Nodemailer module not found. Please run: npm install nodemailer");
@@ -65,6 +62,62 @@ export const sendOTPEmail = async (email, otp) => {
       throw new Error("Email authentication failed. Check EMAIL_USER and EMAIL_PASS in .env");
     }
     throw new Error(`Failed to send OTP email: ${errorMsg}`);
+  }
+};
+
+/**
+ * Send Approval Email
+ */
+export const sendApprovalEmail = async (email) => {
+  try {
+    if (!process.env.EMAIL_USER) return;
+    
+    const mailOptions = {
+      from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+      to: email,
+      subject: "Your Seller Account Has Been Approved! 🎉",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="color: #059669;">Application Approved</h2>
+          <p>Congratulations! Your request to become a seller has been approved by the admin.</p>
+          <p>You can now log in to your dashboard and start listing your products.</p>
+          <a href="http://localhost:5173/login" style="display: inline-block; background-color: #059669; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 10px;">Login to Dashboard</a>
+        </div>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`✅ Approval email sent to ${email}`);
+  } catch (error) {
+    console.error("Error sending approval email:", error);
+    // Don't throw, just log
+  }
+};
+
+/**
+ * Send Rejection Email
+ */
+export const sendRejectionEmail = async (email) => {
+  try {
+    if (!process.env.EMAIL_USER) return;
+    
+    const mailOptions = {
+      from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+      to: email,
+      subject: "Update on Your Seller Application",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="color: #dc2626;">Application Rejected</h2>
+          <p>We regret to inform you that your request to become a seller has been declined at this time.</p>
+          <p>If you believe this is a mistake, please contact support.</p>
+        </div>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`✅ Rejection email sent to ${email}`);
+  } catch (error) {
+    console.error("Error sending rejection email:", error);
   }
 };
 
@@ -81,4 +134,3 @@ export const verifyEmailConfig = async () => {
     return false;
   }
 };
-

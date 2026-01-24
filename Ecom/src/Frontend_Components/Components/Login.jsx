@@ -20,17 +20,19 @@ export const Login = () => {
         password,
       });
 
+      const userData = response.data.user;
+
       // save user info
-      localStorage.setItem("user", JSON.stringify(response.user));
-      alert(`✅ Welcome ${response.user.email} (${response.user.role})`);
+      localStorage.setItem("user", JSON.stringify(userData));
+      alert(`✅ Welcome ${userData.email} (${userData.role})`);
       
       // route based on role
-      if (response.user.role === "ADMIN") {
-        navigate("/admin-dashboard");
-      } else if (response.user.role === "SELLER") {
+      if (userData.role === "ADMIN") {
+        navigate("/admin");
+      } else if (userData.role === "SELLER") {
         navigate("/seller-dashboard");
       } else {
-        navigate("/customer-dashboard");
+        navigate("/home");
       }
     } catch (err) {
       // Check if user is not verified

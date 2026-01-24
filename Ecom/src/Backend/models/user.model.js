@@ -1,9 +1,7 @@
-// backend/models/user.model.js
+
 import db from "../config/database.js";
 
-/**
- * findUserById
- */
+
 export const findUserById = (id) => {
   return new Promise((resolve, reject) => {
     db.query(
@@ -33,9 +31,7 @@ export const findUserByEmail = (email) => {
   });
 };
 
-/**
- * createUser - Creates user with verified=0 and status='pending'
- */
+
 export const createUser = ({ email, password, role }) => {
   return new Promise((resolve, reject) => {
     db.query(
@@ -111,18 +107,30 @@ export const verifyOTP = (email, otp) => {
 };
 
 /**
- * activateUserAndClearOTP - Sets verified=1, status='active', and clears OTP
+ * activateUserAndClearOTP 
+ * FIX: If role is SELLER, keep status='pending' but set verified=1.
+ * If role is BUYER/ADMIN, set status='active' and verified=1.
  */
 export const activateUserAndClearOTP = (email) => {
   return new Promise((resolve, reject) => {
-    db.query(
-      "UPDATE users SET verified = 1, status = 'active', otp_code = NULL, otp_expires_at = NULL WHERE email = ?",
-      [email],
-      (err, result) => {
+    // First, check role
+    db.query("SELECT role FROM users WHERE email = ?", [email], (err, results) => {
         if (err) return reject(err);
-        resolve();
-      }
-    );
+        if (!results[0]) return reject(new Error("User not found"));
+        
+        const role = results[0].role;
+        // If SELLER, keep pending. If anything else, active.
+        const newStatus = (role === 'SELLER') ? 'pending' : 'active';
+        
+        db.query(
+          "UPDATE users SET verified = 1, status = ?, otp_code = NULL, otp_expires_at = NULL WHERE email = ?",
+          [newStatus, email],
+          (updateErr, result) => {
+            if (updateErr) return reject(updateErr);
+            resolve();
+          }
+        );
+    });
   });
 };
 
@@ -181,7 +189,7 @@ export const deleteUnverifiedUserAfterExpiry = (email) => {
 export const getPendingSellers = () => {
   return new Promise((resolve, reject) => {
     db.query(
-      "SELECT id, email, role, status, verified FROM users WHERE role = 'SELLER' AND status = 'pending'",
+      "SELECT id, email, role, status, verified, created_at FROM users WHERE role = 'SELLER' AND status = 'pending'",
       (err, results) => {
         if (err) return reject(err);
         resolve(results);

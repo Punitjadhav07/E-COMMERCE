@@ -208,10 +208,19 @@ router.post("/verify-otp", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await findUserByEmail(email);
+    console.log(`Login attempt: email='${email}', password='${password}'`); // DEBUG
 
-    if (!user || user.password !== password) {
-      return res.status(401).json({ error: "Invalid credentials" });
+    const user = await findUserByEmail(email);
+    console.log("User found in DB:", user); // DEBUG
+
+    if (!user) {
+        console.log("Login failed: User not found");
+        return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    if (user.password !== password) {
+        console.log(`Login failed: Password mismatch. Expected '${user.password}', got '${password}'`);
+        return res.status(401).json({ error: "Invalid credentials" });
     }
 
     // Check if user is verified
@@ -220,6 +229,25 @@ router.post("/login", async (req, res) => {
         error: "Email not verified. Please verify your email first.",
         verified: false 
       });
+    }
+
+    // Check if user is pending (e.g. Seller awaiting approval)
+    // IMPORTANT: Allow them to login BUT we handle the "not approved" logic below if we wanted,
+    // OR just block them here. The prompt says "if admin verifies... hell be navigated to seller dashboard".
+    // This implies they shouldn't get in if pending.
+    if (user.status === 'pending' && user.role === 'SELLER') {
+       return res.status(403).json({
+         error: "Your seller account is pending approval by the admin.",
+         pending_approval: true
+       });
+    }
+    
+    // Also block rejected/blocked
+    if (user.status === 'blocked') {
+        return res.status(403).json({ error: "Your account has been blocked." });
+    }
+    if (user.status === 'rejected') {
+        return res.status(403).json({ error: "Your seller application was rejected." });
     }
 
     res.json({

@@ -7,6 +7,10 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "multer": "^2.0.2",
     "nodemailer": "^6.10.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
   }
 }
